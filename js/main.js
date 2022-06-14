@@ -4,51 +4,26 @@ function randomInteger (firstNumber, secondNumber) {
   if((firstNumber < 0) && (secondNumber < 0)) {
     return 'Указан неверный диапазон чисел. Числа должны быть положительными';
   }
-  else if((firstNumber < 0) && (secondNumber > 0)) {
+  else if((firstNumber < 0) && (secondNumber >= 0)) {
     firstNumber = 0;
   }
-  else if((firstNumber > 0) && (secondNumber < 0)) {
+  else if((firstNumber >= 0) && (secondNumber < 0)) {
     secondNumber = 0;
-  }
-  else if(((firstNumber < 0) && (secondNumber = 0)) || ((secondNumber < 0) && (firstNumber = 0))) {
-    return result;
   }
   else if((firstNumber === secondNumber)) {
     result = firstNumber;
     return result;
   }
-  let digitsNumber = 1; //перменная для хранения разрядности числа
-  let temp = 0; //временная переменная для расчетов
-  let multiplier = 1; //множитель для соответствия разрядности
-  let spread = 0; //переменная для хранения разности двух аргументов
-  let stringNumber = ''; //переменная для хранения строковой версии разности аргументов
-  let extractedDigit = 0;//переменная для хранения цифр, входящих в состав числа, равного разности аргументов
-  if(firstNumber < secondNumber) {
-    result = firstNumber;
-    spread = secondNumber - firstNumber;
+  if(secondNumber < firstNumber) {
+    secondNumber = Math.ceil(secondNumber);
+    firstNumber = Math.floor(firstNumber);
+    result = Math.floor(Math.random() * (firstNumber - secondNumber + 1)) + secondNumber;//https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    return result;
   }
-  else {
-    result = secondNumber;
-    spread = firstNumber - secondNumber;
-  }
-  digitsNumber = spread.toString().length;//https://stackoverflow.com/questions/10952615/how-can-i-find-the-length-of-a-number
-  stringNumber = spread.toString();
-  temp = 0;
-  multiplier = 1;
-  for(let i = 0; i < digitsNumber; i++) {
-    extractedDigit = stringNumber.charAt(digitsNumber - i - 1);//https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/charAt
-    //console.log('вот счетчик' + i)
-    //console.log('вот длина строки' + digitsNumber)
-    //console.log('цифра ' + extractedDigit)
-    if( i >= 1) {
-      multiplier *= 10;
-    }
-    temp = Math.random() * extractedDigit * multiplier;
-    //console.log('результат до итерации ' + result);
-    result += temp;
-    //console.log('результат после итерации ' + result);
-  }
-  return Math.round(result);
+  firstNumber = Math.ceil(firstNumber);
+  secondNumber = Math.floor(secondNumber);
+  result = Math.floor(Math.random() * (secondNumber - firstNumber + 1)) + firstNumber;
+  return result;
 }
 //console.log(randomInteger(100, 665));
 randomInteger(100, 665);
@@ -59,67 +34,26 @@ function randomFloat (firstNumber, secondNumber, numberOfDigits) {
   if((firstNumber < 0) && (secondNumber < 0)) {
     return 'Указан неверный диапазон чисел. Числа должны быть положительными';
   }
-  else if((firstNumber < 0) && (secondNumber > 0)) {
+  else if((firstNumber < 0) && (secondNumber >= 0)) {
     firstNumber = 0;
   }
-  else if((firstNumber > 0) && (secondNumber < 0)) {
+  else if((firstNumber >= 0) && (secondNumber < 0)) {
     secondNumber = 0;
-  }
-  else if(((firstNumber < 0) && (secondNumber = 0)) || ((secondNumber < 0) && (firstNumber = 0))) {
-    return result;
   }
   else if((firstNumber === secondNumber)) {
     result = firstNumber;
     return result;
   }
-  const firstFloatTail = firstNumber - Math.floor(firstNumber); //для хранения "хвостов", идущих после запятой
-  const secondFloatTail = secondNumber - Math.floor(secondNumber);
-  firstNumber = Math.floor(firstNumber);
+  if(secondNumber < firstNumber) {
+    secondNumber = Math.ceil(secondNumber);
+    firstNumber = Math.floor(firstNumber);
+    result = Math.random() * (firstNumber - secondNumber) + secondNumber;//https://habr.com/ru/post/312880/
+    return result;
+  }
+  firstNumber = Math.ceil(firstNumber);
   secondNumber = Math.floor(secondNumber);
-  let digitsNumber = 1; //перменная для хранения разрядности числа
-  let temp = 0; //временная переменная для расчетов
-  let multiplier = 1; //множитель для соответствия разрядности
-  let spread = 0; //переменная для хранения разности двух аргументов
-  let stringNumber = ''; //переменная для хранения строковой версии разности аргументов
-  let extractedDigit = 0;//переменная для хранения цифр, входящих в состав числа, равного разности аргументов
-  if(firstNumber < secondNumber) {
-    result = firstNumber;
-    spread = secondNumber - firstNumber;
-  }
-  else {
-    result = secondNumber;
-    spread = firstNumber - secondNumber;
-  }
-  digitsNumber = spread.toString().length;//https://stackoverflow.com/questions/10952615/how-can-i-find-the-length-of-a-number
-  stringNumber = spread.toString();
-  temp = 0;
-  multiplier = 1;
-  for(let i = 0; i < digitsNumber; i++) {
-    extractedDigit = stringNumber.charAt(digitsNumber - i - 1);//https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/charAt
-    //console.log('вот счетчик' + i)
-    //console.log('вот длина строки' + digitsNumber)
-    //console.log('цифра ' + extractedDigit)
-    if( i >= 1) {
-      multiplier *= 10;
-    }
-    temp = Math.random() * extractedDigit * multiplier;
-    //console.log('результат до итерации ' + result);
-    result += temp;
-    //console.log('результат после итерации ' + result);
-  }
-  if((firstNumber < secondNumber) && (result === Math.floor(firstNumber))) {
-    result += firstFloatTail * (Math.random() + 1);
-  }
-  else if((firstNumber < secondNumber) && (result === Math.floor(secondNumber))) {
-    result += secondFloatTail * Math.random();
-  }
-  else if((secondNumber < firstNumber) && (result === Math.floor(secondNumber))) {
-    result += secondFloatTail * (Math.random() + 1);
-  }
-  else if((secondNumber < firstNumber) && (result === Math.floor(firstNumber))) {
-    result += firstFloatTail*Math.random();
-  }
+  result = Math.random() * (secondNumber - firstNumber) + firstNumber;
   return result.toFixed(numberOfDigits);
 }
 //console.log(randomFloat(1.55, 22.47856, 7));
-randomFloat(1.55, 7,478, 3);
+randomFloat(1.55, 7.478, 3);

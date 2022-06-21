@@ -7,7 +7,7 @@ function getRandomPositiveInteger (a, b) { // Источник - https://github.
 
 //getRandomPositiveInteger (10, 12);
 
-function getRandomPositiveFloat (a, b, digits = 1) { // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
+function getRandomPositiveFloat (a, b, digits) { // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
@@ -26,25 +26,24 @@ const PHOTOS = [
 ];
 
 const getRandomAvatar = function() {
-  let temp = getRandomPositiveInteger(1, 10);
-  if (temp <= 9) {
-    temp = temp.toString();
-    temp = `0${temp}`;
-  }
-  temp = temp.toString();
-  return temp;
+  const temp = getRandomPositiveInteger(1, 10);
+  return temp <= 9 ? `0${temp}` : temp;
+};
+
+const getRandomArrayComponent = function(array) {
+  return array[getRandomPositiveInteger(0, array.length - 1)];
 };
 
 const createObject = function () {
   const randomAvatar = getRandomAvatar();
-  const randomLat = (getRandomPositiveFloat (35.65000, 35.70000)).toFixed(5);
-  const randomLng = (getRandomPositiveFloat (139.70000, 139.80000)).toFixed(5);
+  const randomLat = getRandomPositiveFloat (35.65000, 35.70000, 5);
+  const randomLng = getRandomPositiveFloat (139.70000, 139.80000, 5);
   const location = {
     lat: randomLat,
     lng: randomLng
   };
 
-  const addressCoordinates = `${randomLat.toString()}, ${randomLng.toString()}`;
+  const addressCoordinates = `${randomLat}, ${randomLng}`;
 
   const offer = {
     title: 'Локейшн на троечку, и кормят как в столовке.',
@@ -53,19 +52,20 @@ const createObject = function () {
     type: TYPE[getRandomPositiveInteger(0, TYPE.length - 1)],
     rooms: getRandomPositiveInteger(1, 1000), //непонятно, какой должна быть верхняя граница возможного диапазона
     guests: getRandomPositiveInteger(1, 1000), //непонятно, какой должна быть верхняя граница возможного диапазона
-    checkin: CHEK_IN_OUT[getRandomPositiveInteger(0, CHEK_IN_OUT.length - 1)],
-    checkout: CHEK_IN_OUT[getRandomPositiveInteger(0, CHEK_IN_OUT.length - 1)],
-    features: FEATURES[getRandomPositiveInteger(0, FEATURES.length - 1)],
+    checkin: getRandomArrayComponent(CHEK_IN_OUT),
+    checkout: getRandomArrayComponent(CHEK_IN_OUT),
+    features: getRandomArrayComponent(FEATURES),
     description: 'Комната, в которую с трудом влезает кровать. Вид из окна на соседнюю стену.',
-    photos: PHOTOS[getRandomPositiveInteger(0, PHOTOS.length - 1)]
+    photos: getRandomArrayComponent(PHOTOS)
   };
 
   return {
-    autor: `img/avatars/user${randomAvatar.toString()}.png`,
+    author: `img/avatars/user${randomAvatar}.png`,
     location,
     offer
   };
 };
 
 const similarObjects = Array.from({length: 10}, createObject);
+// eslint-disable-next-line no-console
 console.log(similarObjects);

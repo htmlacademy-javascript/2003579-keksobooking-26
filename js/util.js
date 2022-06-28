@@ -4,7 +4,7 @@ function getRandomPositiveInteger (a, b) { // Источник - https://github.
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 }
-  
+
 function getRandomPositiveFloat (a, b, digits) { // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));

@@ -1,3 +1,3 @@
 import {similarObjects} from './data.js';
 
-console.log(similarObjects);
+//console.log(similarObjects);

@@ -46,6 +46,6 @@ const createObject = function () {
   };
 };
 
-const similarObjects = Array.from({length: 10}, createObject);
+const similarObjects = () => Array.from({length: 10}, createObject);
 
 export {similarObjects};

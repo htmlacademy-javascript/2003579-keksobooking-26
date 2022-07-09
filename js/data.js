@@ -34,9 +34,9 @@ const createObject = function () {
     guests: getRandomPositiveInteger(1, 1000), //непонятно, какой должна быть верхняя граница возможного диапазона
     checkin: getRandomArrayComponent(CHEK_IN_OUT),
     checkout: getRandomArrayComponent(CHEK_IN_OUT),
-    features: getRandomArrayComponent(FEATURES),
+    features: [getRandomArrayComponent(FEATURES)],
     description: 'Комната, в которую с трудом влезает кровать. Вид из окна на соседнюю стену.',
-    photos: getRandomArrayComponent(PHOTOS)
+    photos: [getRandomArrayComponent(PHOTOS)]
   };
 
   return {
@@ -46,6 +46,6 @@ const createObject = function () {
   };
 };
 
-const similarObjects = Array.from({length: 10}, createObject);
+const similarObjects = () => Array.from({length: 10}, createObject);
 
 export {similarObjects};

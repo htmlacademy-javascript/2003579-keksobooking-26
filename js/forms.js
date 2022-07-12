@@ -1,30 +1,21 @@
 const noticeForm = document.querySelector('.ad-form');
 const filtersForm = document.querySelector('.map__filters');
 
-const switchFormOnOff = function(form, disablingClass, booleanToggle) {
+const switchFormOnOff = function(form, disablingClass) {
 
   const subElements = form.querySelectorAll('fieldset', 'select');
 
-  if(!booleanToggle) {
-    form.classList.add(disablingClass);
+  form.classList.toggle(disablingClass);
 
-    subElements.forEach((subElement) => {
-      subElement.classList.add('disabled');
-    });
-  }
-  else {
-    form.classList.remove(disablingClass);
-
-    subElements.forEach((subElement) => {
-      subElement.classList.remove('disabled');
-    });
-  }
+  subElements.forEach((subElement) => {
+    subElement.classList.toggle('disabled');
+  });
 };
 
-switchFormOnOff(noticeForm, 'ad-form--disabled', false);
-switchFormOnOff(filtersForm, 'map__filters--disabled', false);
+switchFormOnOff(noticeForm, 'ad-form--disabled');
+switchFormOnOff(filtersForm, 'map__filters--disabled');
 
-switchFormOnOff(noticeForm, 'ad-form--disabled', true);
-switchFormOnOff(filtersForm, 'map__filters--disabled', true);
+switchFormOnOff(noticeForm, 'ad-form--disabled');
+switchFormOnOff(filtersForm, 'map__filters--disabled');
 
 export {switchFormOnOff};

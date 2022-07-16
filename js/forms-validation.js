@@ -29,24 +29,27 @@ const minPrice = {
   'Дворец': 10000
 };
 
+const allocation = userForm.querySelector('#type');
+const allocationOptions = allocation.querySelectorAll('option');
+
 function validatePrice (value) {
   //const allocation = userForm.querySelector('[name="type"]');
-  const allocation = userForm.querySelector('#type');
-  const options = allocation.querySelectorAll('option');
-  return minPrice[options[allocation.selectedIndex].value] <= parseInt(value, 10) && parseInt(value, 10) <= 100000;
+  //const allocation = userForm.querySelector('#type');
+  //const options = allocation.querySelectorAll('option');
+  return minPrice[allocationOptions[allocation.selectedIndex].text] <= parseInt(value, 10) && parseInt(value, 10) <= 100000;
 }
 
 function getPriceErrorMessage () {
   //const allocation = userForm.querySelector('[name="type"]');
-  const allocation = userForm.querySelector('#type');
-  const options = allocation.querySelectorAll('option');
-  return `Цена должна быть больше ${minPrice[options[allocation.selectedIndex].value]}`;
+  //const allocation = userForm.querySelector('#type');
+  //const options = allocation.querySelectorAll('option');
+  return `Цена должна быть больше ${minPrice[allocationOptions[allocation.selectedIndex].text]} и меньше 100000`;
 }
 
 pristine.addValidator(adPrice, validatePrice, getPriceErrorMessage);
 
 function onAllocationChange () {
-  adPrice.placeholder = minPrice[this.value]; //непонятно, откуда берется контекст
+  adPrice.placeholder = minPrice[this.text]; //непонятно, откуда берется контекст
   pristine.validate(adPrice);
 }
 
@@ -60,7 +63,7 @@ const checkOut = document.querySelector('#timeout');
 const checkOutOptions = document.querySelectorAll('option');
 
 function validateTime () {
-  return checkInOptions[checkIn.selectedIndex].value.substring(6,2) === checkOutOptions[checkOut.selectedIndex].value.substring(9,2);
+  return checkInOptions[checkIn.selectedIndex].text.substring(6,2) === checkOutOptions[checkOut.selectedIndex].text.substring(9,2);
 }
 
 //function getTimeError () {
@@ -75,7 +78,7 @@ pristine.addValidator(checkOut, validateTime, 'Время заезда долж�
 const adRooms = document.querySelector('#room_number');
 const adRoomsOptions = adRooms.querySelectorAll('option');
 const adGuests = document.querySelector('#capacity');
-const adGuestsOptions = document.querySelectorAll('option');
+const adGuestsOptions = adGuests.querySelectorAll('option');
 
 const capacityOption = {
   '1 комната': ['для 1 гостя'],
@@ -85,11 +88,11 @@ const capacityOption = {
 };
 
 function validateCapacity () {
-  return capacityOption[adRoomsOptions[adRooms.selectedIndex].value].includes(adGuestsOptions[adGuests.selectedIndex].value);
+  return capacityOption[adRoomsOptions[adRooms.selectedIndex].text].includes(adGuestsOptions[adGuests.selectedIndex].text);
 }
 
 function getDeliveryError () {
-  return `${adRoomsOptions[adRooms.selectedIndex].value} ${adRoomsOptions[adRooms.selectedIndex].value === '1 комната' ? 'доступна' : 'доступны'} только ${adGuestsOptions[adGuests.selectedIndex].value}`;
+  return `${adRoomsOptions[adRooms.selectedIndex].text} ${adRoomsOptions[adRooms.selectedIndex].text === '1 комната' ? 'доступна' : 'доступны'} только ${adGuestsOptions[adGuests.selectedIndex].text}`;
 }
 
 pristine.addValidator(adRooms, validateCapacity, getDeliveryError);

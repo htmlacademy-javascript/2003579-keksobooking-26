@@ -22,78 +22,76 @@ pristine.addValidator(
 const adPrice = document.querySelector('#price');
 
 const minPrice = {
-  'Бунгало': 0,
-  'Квартира': 1000,
-  'Отель': 3000,
-  'Дом': 5000,
-  'Дворец': 10000
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
 };
 
+const allocation = userForm.querySelector('#type');
+
 function validatePrice (value) {
-  //const allocation = userForm.querySelector('[name="type"]');
-  const allocation = userForm.querySelector('#type');
-  const options = allocation.querySelectorAll('option');
-  return minPrice[options[allocation.selectedIndex].value] <= parseInt(value, 10) && parseInt(value, 10) <= 100000;
+  return minPrice[allocation.value] <= parseInt(value, 10) && parseInt(value, 10) <= 100000;
 }
 
 function getPriceErrorMessage () {
-  //const allocation = userForm.querySelector('[name="type"]');
-  const allocation = userForm.querySelector('#type');
-  const options = allocation.querySelectorAll('option');
-  return `Цена должна быть больше ${minPrice[options[allocation.selectedIndex].value]}`;
+  return `Цена должна быть больше ${minPrice[allocation.value]} и меньше 100000`;
 }
 
 pristine.addValidator(adPrice, validatePrice, getPriceErrorMessage);
 
 function onAllocationChange () {
-  adPrice.placeholder = minPrice[this.value]; //непонятно, откуда берется контекст
-  pristine.validate(adPrice);
+  adPrice.placeholder = minPrice[allocation.value];
 }
 
 userForm.querySelector('#type').addEventListener('change', onAllocationChange);
 
-//const checkIn = document.querySelector('[name="timein"]');
-//const checkOut = document.querySelector('[name="time-out"]');
 const checkIn = document.querySelector('#timein');
-const checkInOptions = checkIn.querySelectorAll('option');
 const checkOut = document.querySelector('#timeout');
-const checkOutOptions = document.querySelectorAll('option');
 
 function validateTime () {
-  return checkInOptions[checkIn.selectedIndex].value.substring(6,2) === checkOutOptions[checkOut.selectedIndex].value.substring(9,2);
+  return checkIn.value === checkOut.value;
 }
-
-//function getTimeError () {
-//  return 'Время заезда должно совпадать с временем выезда';
-//}
 
 pristine.addValidator(checkIn, validateTime, 'Время заезда должно совпадать с временем выезда');
 pristine.addValidator(checkOut, validateTime, 'Время заезда должно совпадать с временем выезда');
 
-//const adRooms = document.querySelector('[name="rooms"]');
-//const adGuests = document.querySelector('[name="capacity"]');
 const adRooms = document.querySelector('#room_number');
-const adRoomsOptions = adRooms.querySelectorAll('option');
 const adGuests = document.querySelector('#capacity');
-const adGuestsOptions = document.querySelectorAll('option');
 
-const capacityOption = {
-  '1 комната': ['для 1 гостя'],
-  '2 комнаты': ['для 2 гостей', 'для 1 гостя'],
-  '3 комнаты': ['для 3 гостей', 'для 2 гостей', 'для 1 гостя'],
-  '100 комнат': ['не для гостей']
+const capacityOptionValues = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
+
+const roomCapacityTexcontent = {
+  '1': ['для 1 гостя'],
+  '2': ['для 2 гостей', 'для 1 гостя'],
+  '3': ['для 3 гостей', 'для 2 гостей', 'для 1 гостя'],
+  '100': ['не для гостей']
 };
 
 function validateCapacity () {
-  return capacityOption[adRoomsOptions[adRooms.selectedIndex].value].includes(adGuestsOptions[adGuests.selectedIndex].value);
+  return capacityOptionValues[adRooms.value].includes(adGuests.value);
 }
 
-function getDeliveryError () {
-  return `${adRoomsOptions[adRooms.selectedIndex].value} ${adRoomsOptions[adRooms.selectedIndex].value === '1 комната' ? 'доступна' : 'доступны'} только ${adGuestsOptions[adGuests.selectedIndex].value}`;
+function getRoomCapacityError () {
+  if(parseInt(adRooms.value, 10) === 1) {
+    return `${adRooms.value}&nbsp;комната доступна не более чем ${roomCapacityTexcontent[adRooms.value][0]}`;
+  }
+  else if(parseInt(adRooms.value, 10) > 1 && parseInt(adRooms.value, 10) < 5) {
+    return `${adRooms.value}&nbsp;комнаты доступны не более чем ${roomCapacityTexcontent[adRooms.value][0]}`;
+  }
+  else if(parseInt(adRooms.value, 10) >= 5) {
+    return `${adRooms.value}&nbsp;комнат доступны ${roomCapacityTexcontent[adRooms.value][0]}`;
+  }
 }
 
-pristine.addValidator(adRooms, validateCapacity, getDeliveryError);
-pristine.addValidator(adGuests, validateCapacity, getDeliveryError);
+pristine.addValidator(adRooms, validateCapacity, getRoomCapacityError);
+pristine.addValidator(adGuests, validateCapacity, getRoomCapacityError);
 
 userForm.addEventListener('submit', (evt) => {
   evt.preventDefault();

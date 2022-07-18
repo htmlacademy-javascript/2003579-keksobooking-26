@@ -50,12 +50,26 @@ userForm.querySelector('#type').addEventListener('change', onAllocationChange);
 const checkIn = document.querySelector('#timein');
 const checkOut = document.querySelector('#timeout');
 
-function validateTime () {
+/*function validateTime () {
   return checkIn.value === checkOut.value;
 }
 
 pristine.addValidator(checkIn, validateTime, 'Время заезда должно совпадать с временем выезда');
 pristine.addValidator(checkOut, validateTime, 'Время заезда должно совпадать с временем выезда');
+*/
+
+function onTimeChange (evt) {
+  //console.log(evt.target.value);
+  if(evt.target.matches('[name="timeout"]')) {
+    checkIn.value = evt.target.value;
+  }
+  else if(evt.target.matches('[name="timein"]')) {
+    checkOut.value = evt.target.value;
+  }
+}
+
+checkIn.addEventListener('change', onTimeChange);
+checkOut.addEventListener('change', onTimeChange);
 
 const adRooms = document.querySelector('#room_number');
 const adGuests = document.querySelector('#capacity');

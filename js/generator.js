@@ -63,6 +63,6 @@ const similarElements = similarOffers.map(({author, offer}) => {
   return similarElement;
 });
 
-map.append(similarElements[0]);
+//map.append(similarElements[0]);
 
 export {similarElements};

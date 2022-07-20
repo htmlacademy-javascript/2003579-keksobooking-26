@@ -12,7 +12,7 @@ const switchFormOnOff = function(form, disablingClass, booleanToggle) {
   });
 };
 
-switchFormOnOff(noticeForm, 'ad-form--disabled', false);
-switchFormOnOff(filtersForm, 'map__filters--disabled', false);
+switchFormOnOff(noticeForm, 'ad-form--disabled', true);
+switchFormOnOff(filtersForm, 'map__filters--disabled', true);
 
 export {switchFormOnOff};

@@ -1,3 +1,5 @@
+import {sendData} from './api.js';
+
 const userForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine(userForm, {
@@ -50,16 +52,7 @@ userForm.querySelector('#type').addEventListener('change', onAllocationChange);
 const checkIn = document.querySelector('#timein');
 const checkOut = document.querySelector('#timeout');
 
-/*function validateTime () {
-  return checkIn.value === checkOut.value;
-}
-
-pristine.addValidator(checkIn, validateTime, 'Время заезда должно совпадать с временем выезда');
-pristine.addValidator(checkOut, validateTime, 'Время заезда должно совпадать с временем выезда');
-*/
-
 function onTimeChange (evt) {
-  //console.log(evt.target.value);
   if(evt.target.matches('[name="timeout"]')) {
     checkIn.value = evt.target.value;
   }
@@ -107,10 +100,30 @@ function getRoomCapacityError () {
 pristine.addValidator(adRooms, validateCapacity, getRoomCapacityError);
 pristine.addValidator(adGuests, validateCapacity, getRoomCapacityError);
 
-userForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+const submitButton = document.querySelector('.ad-form__submit');
 
-  pristine.validate();
-});
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+};
 
-export {pristine};
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+};
+
+
+const onUserFormSubmit = function() {
+  userForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+
+    if(isValid) {
+      blockSubmitButton();
+
+      sendData(new FormData(evt.target));
+    }
+
+  });
+};
+
+export {blockSubmitButton, unblockSubmitButton, onUserFormSubmit};

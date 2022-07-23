@@ -1,5 +1,3 @@
-//import {minPrice} from './forms-validation.js';
-
 const priceSlider = document.querySelector('.ad-form__slider');
 const priceField = document.querySelector('#price');
 const typeField = document.querySelector('#type');

@@ -4,24 +4,16 @@ import {clearForm} from './form-reset.js';
 import {showAlert, showServerError, debounce} from './util.js';
 import {unblockSubmitButton} from './forms-validation.js';
 import {switchFormOnOff} from './forms-toggle.js';
-import {compareType, comparePrice, compareRooms, compareGuests, compareFeatures} from './filters.js';
+import {compareType, comparePrice, compareRooms, compareGuests, compareFeatures, compareFeaturesNumber} from './filters.js';
 
 const filtersForm = document.querySelector('.map__filters');
 const housingType = document.querySelector('#housing-type');
 const housingPrice = document.querySelector('#housing-price');
 const housingRooms = document.querySelector('#housing-rooms');
 const housingGuests = document.querySelector('#housing-guests');
-const housingFeatures = document.querySelector('#housing-features');
-const featuresChecked = document.querySelectorAll('input[name="features"]:checked');
+
 const FILTERED_NUMBER = 10;
 const RERENDER_DELAY = 500;
-
-const compareFeaturesNumber = function(offerA, offerB) {
-  const rankA = compareFeatures(offerA, featuresChecked);
-  const rankB = compareFeatures(offerB, featuresChecked);
-
-  return rankB - rankA;
-};
 
 const renderPoints = function(array) {
   const copyArray = array.slice(0);
@@ -29,7 +21,7 @@ const renderPoints = function(array) {
   const filteredByPrice = filteredByType.filter((filteredByTypeElement) => comparePrice(filteredByTypeElement, housingPrice.value));
   const filteredByRooms = filteredByPrice.filter((filteredByPriceElement) => compareRooms(filteredByPriceElement, housingRooms.value));
   const filteredByGuests = filteredByRooms.filter((filteredByRoomsElement) => compareGuests(filteredByRoomsElement, housingGuests.value));
-  const filteredByFeatures = filteredByGuests.filter((filteredByGuestsElement) => compareFeatures(filteredByGuestsElement, featuresChecked));
+  const filteredByFeatures = filteredByGuests.filter((filteredByGuestsElement) => compareFeatures(filteredByGuestsElement));
 
   if(filteredByFeatures.length > 10) {
     filteredByFeatures.sort(compareFeaturesNumber);
@@ -46,8 +38,7 @@ const getData = function () {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((offers) => {
-      console.log(offers);
-      //console.log(offers.length);
+      //console.log(offers);
       switchFormOnOff(filtersForm, false);
 
       renderPoints(offers);
@@ -55,12 +46,12 @@ const getData = function () {
       filtersForm.addEventListener('change', debounce(() => {
         clearMarkers();
         renderPoints(offers);
-      }));
+      }), RERENDER_DELAY);
 
     })
-    .catch((err) => {
-      console.log(err);
-      switchFormOnOff(filtersForm, true);
+    .catch(() => {
+      //console.log(err);
+      switchFormOnOff(filtersForm, 'map__filters--disabled', true);
       showServerError();
     });
 };

@@ -1,9 +1,3 @@
-
-const housingPrice = document.querySelector('#housing-price');
-const housingRooms = document.querySelector('#housing-rooms');
-const housingGuests = document.querySelector('#housing-guests');
-const housingFeatures = document.querySelector('#housing-features');
-
 const DEFAULT_TYPE_OPTION = 'any';
 
 const compareType = function(dataElement, targetedType) {
@@ -24,7 +18,6 @@ const priceFilterOptions = {
   optionC: 'high',
   optionD: 'any',
 };
-
 
 const comparePrice = function(dataElement, targetedPrice) {
   if(targetedPrice === priceFilterOptions.optionA) {
@@ -51,10 +44,10 @@ const comparePrice = function(dataElement, targetedPrice) {
 };
 
 
-const defaultRoomOption = 'any';
+const DEFAULT_ROOMS_OPTION = 'any';
 
 const compareRooms = function(dataElement, targetedRooms) {
-  if(targetedRooms === defaultRoomOption) {
+  if(targetedRooms === DEFAULT_ROOMS_OPTION) {
     return true;
   }
   else {
@@ -66,10 +59,10 @@ const compareRooms = function(dataElement, targetedRooms) {
   }
 };
 
-const defaultGuestsOption = 'any';
+const DEFAULT_GUESTS_OPTION = 'any';
 
 const compareGuests = function(dataElement, targetedGuests) {
-  if(targetedGuests === defaultGuestsOption) {
+  if(targetedGuests === DEFAULT_GUESTS_OPTION) {
     return true;
   }
   else {
@@ -80,22 +73,21 @@ const compareGuests = function(dataElement, targetedGuests) {
   }
 };
 
-//const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const compareFeatures = function(dataElement) {
+  const checkedFeatures = document.querySelectorAll('input[name="features"]:checked');
 
-//const featuresChecked = document.querySelectorAll('input[name="features"]:checked');
-
-const compareFeatures = function(dataElement, checkedFeatures) {
-  //console.log('фильтры удобств работают');
   if(checkedFeatures.length === 0) {
     return true;
   }
 
-  const featuresArray = dataElement.features;
+  const featuresArray = dataElement.offer.features;
+  if(!featuresArray) {
+    return false;
+  }
+
   let count = 0;
 
   for( let i = 0; i < checkedFeatures.length; i++) {
-    //console.log(checkedFeatures[i]);
-    //console.log(checkedFeatures[i].value);
 
     if(featuresArray.indexOf(checkedFeatures[i].value) >= 0) {
       count++;
@@ -105,9 +97,23 @@ const compareFeatures = function(dataElement, checkedFeatures) {
       break;
     }
   }
-  //console.log(count);
 
-  return count;
+  return count === checkedFeatures.length;
 };
 
-export {compareType, comparePrice, compareRooms, compareGuests, compareFeatures};
+const countFeaturesNumber = function(dataElement) {
+  const featuresArray = dataElement.offer.features;
+  if(!featuresArray) {
+    return 0;
+  }
+  return featuresArray.length;
+};
+
+const compareFeaturesNumber = function(offerA, offerB) {
+  const rankA = countFeaturesNumber(offerA);
+  const rankB = countFeaturesNumber(offerB);
+
+  return rankB - rankA;
+};
+
+export {compareType, comparePrice, compareRooms, compareGuests, compareFeatures, compareFeaturesNumber};

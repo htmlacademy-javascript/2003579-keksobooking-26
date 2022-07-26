@@ -70,4 +70,8 @@ const createMarker = (point, counter, cardsArray) => {
     .bindPopup(cardsArray[counter]);
 };
 
-export {map, createMarker};
+const clearMarkers = function() {
+  markerGroup.clearLayers();
+};
+
+export {map, createMarker, clearMarkers};

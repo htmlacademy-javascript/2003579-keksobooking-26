@@ -68,4 +68,12 @@ const showServerError = function() {
   promo.insertBefore(container, title);
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayComponent, showAlert, showServerError};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayComponent, showAlert, showServerError, debounce};

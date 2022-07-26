@@ -1,4 +1,5 @@
 import {sendData} from './api.js';
+import {onAvatarChange, onOfferPhotoChange} from './photo.js';
 
 const userForm = document.querySelector('.ad-form');
 
@@ -110,6 +111,9 @@ const unblockSubmitButton = () => {
   submitButton.disabled = false;
 };
 
+
+onAvatarChange();
+onOfferPhotoChange();
 
 const onUserFormSubmit = function() {
   userForm.addEventListener('submit', (evt) => {

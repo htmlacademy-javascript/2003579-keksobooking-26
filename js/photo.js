@@ -8,6 +8,9 @@ const FILE_TYPES = ['jpeg', 'jpg', 'gif', 'png'];
 const onAvatarChange = function() {
   uploadAvatar.addEventListener('change', () => {
     const newAvatar = uploadAvatar.files[0];
+    if(!newAvatar) {
+      return;
+    }
     const avatarName = newAvatar.name.toLowerCase();
 
     const isMatching = FILE_TYPES.some((it) => avatarName.endsWith(it));
@@ -21,6 +24,9 @@ const onAvatarChange = function() {
 const onOfferPhotoChange = function() {
   uploadOfferPhoto.addEventListener('change', () => {
     const newOfferPhoto = uploadOfferPhoto.files[0];
+    if(!newOfferPhoto) {
+      return;
+    }
     const offerPhotoName = newOfferPhoto.name.toLowerCase();
 
     const isMatching = FILE_TYPES.some((it) => offerPhotoName.endsWith(it));

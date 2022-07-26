@@ -51,7 +51,7 @@ const compareRooms = function(dataElement, targetedRooms) {
     return true;
   }
   else {
-    if((dataElement.offer.rooms + '') === targetedRooms) {
+    if(String(dataElement.offer.rooms) === targetedRooms) {
       return true;
     }
 
@@ -66,7 +66,7 @@ const compareGuests = function(dataElement, targetedGuests) {
     return true;
   }
   else {
-    if((dataElement.offer.guests + '') === targetedGuests) {
+    if(String(dataElement.offer.guests) === targetedGuests) {
       return true;
     }
     return false;

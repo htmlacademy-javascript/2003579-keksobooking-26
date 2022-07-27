@@ -12,9 +12,9 @@ const pristine = new Pristine(userForm, {
   errorTextClass: 'ad-form__error'
 });
 
-function validateTitle (value) {
+const validateTitle = function (value) {
   return value.length >= 30 && value.length <= 100;
-}
+};
 
 pristine.addValidator(
   userForm.querySelector('#title'),
@@ -34,33 +34,33 @@ const minPrice = {
 
 const allocation = userForm.querySelector('#type');
 
-function validatePrice (value) {
+const validatePrice = function (value) {
   return minPrice[allocation.value] <= parseInt(value, 10) && parseInt(value, 10) <= 100000;
-}
+};
 
-function getPriceErrorMessage () {
+const getPriceErrorMessage = function () {
   return `Цена должна быть больше ${minPrice[allocation.value]} и меньше 100000`;
-}
+};
 
 pristine.addValidator(adPrice, validatePrice, getPriceErrorMessage);
 
-function onAllocationChange () {
+const onAllocationChange = function () {
   adPrice.placeholder = minPrice[allocation.value];
-}
+};
 
 userForm.querySelector('#type').addEventListener('change', onAllocationChange);
 
 const checkIn = document.querySelector('#timein');
 const checkOut = document.querySelector('#timeout');
 
-function onTimeChange (evt) {
+const onTimeChange = function (evt) {
   if(evt.target.matches('[name="timeout"]')) {
     checkIn.value = evt.target.value;
   }
   else if(evt.target.matches('[name="timein"]')) {
     checkOut.value = evt.target.value;
   }
-}
+};
 
 checkIn.addEventListener('change', onTimeChange);
 checkOut.addEventListener('change', onTimeChange);
@@ -82,11 +82,11 @@ const roomCapacityTexcontent = {
   '100': ['не для гостей']
 };
 
-function validateCapacity () {
+const validateCapacity = function () {
   return capacityOptionValues[adRooms.value].includes(adGuests.value);
-}
+};
 
-function getRoomCapacityError () {
+const getRoomCapacityError = function () {
   if(parseInt(adRooms.value, 10) === 1) {
     return `${adRooms.value}&nbsp;комната доступна не более чем ${roomCapacityTexcontent[adRooms.value][0]}`;
   }
@@ -96,7 +96,7 @@ function getRoomCapacityError () {
   else if(parseInt(adRooms.value, 10) >= 5) {
     return `${adRooms.value}&nbsp;комнат доступны ${roomCapacityTexcontent[adRooms.value][0]}`;
   }
-}
+};
 
 pristine.addValidator(adRooms, validateCapacity, getRoomCapacityError);
 pristine.addValidator(adGuests, validateCapacity, getRoomCapacityError);

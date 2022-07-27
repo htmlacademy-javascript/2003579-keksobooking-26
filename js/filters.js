@@ -4,12 +4,7 @@ const compareType = function(dataElement, targetedType) {
   if(targetedType === DEFAULT_TYPE_OPTION) {
     return true;
   }
-  else {
-    if(dataElement.offer.type === targetedType) {
-      return true;
-    }
-  }
-  return false;
+  return (dataElement.offer.type === targetedType);
 };
 
 const priceFilterOptions = {
@@ -21,28 +16,18 @@ const priceFilterOptions = {
 
 const comparePrice = function(dataElement, targetedPrice) {
   if(targetedPrice === priceFilterOptions.optionA) {
-    if(dataElement.offer.price >= 10000 && dataElement.offer.price < 50000) {
-      return true;
-    }
-    return false;
+    return (dataElement.offer.price >= 10000 && dataElement.offer.price < 50000);
   }
   else if(targetedPrice === priceFilterOptions.optionB) {
-    if(dataElement.offer.price < 10000) {
-      return true;
-    }
-    return false;
+    return (dataElement.offer.price < 10000);
   }
   else if(targetedPrice === priceFilterOptions.optionC) {
-    if(dataElement.offer.price >= 50000) {
-      return true;
-    }
-    return false;
+    return (dataElement.offer.price >= 50000);
   }
   else if(targetedPrice === priceFilterOptions.optionD) {
     return true;
   }
 };
-
 
 const DEFAULT_ROOMS_OPTION = 'any';
 
@@ -50,13 +35,7 @@ const compareRooms = function(dataElement, targetedRooms) {
   if(targetedRooms === DEFAULT_ROOMS_OPTION) {
     return true;
   }
-  else {
-    if(String(dataElement.offer.rooms) === targetedRooms) {
-      return true;
-    }
-
-    return false;
-  }
+  return String(dataElement.offer.rooms) === targetedRooms;
 };
 
 const DEFAULT_GUESTS_OPTION = 'any';
@@ -65,12 +44,7 @@ const compareGuests = function(dataElement, targetedGuests) {
   if(targetedGuests === DEFAULT_GUESTS_OPTION) {
     return true;
   }
-  else {
-    if(String(dataElement.offer.guests) === targetedGuests) {
-      return true;
-    }
-    return false;
-  }
+  return String(dataElement.offer.guests) === targetedGuests;
 };
 
 const compareFeatures = function(dataElement) {

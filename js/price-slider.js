@@ -25,9 +25,7 @@ noUiSlider.create(priceSlider, {
   },
 });
 
-
 priceSlider.noUiSlider.on('update', () => {
-  //console.log(priceSlider.noUiSlider.get());
   priceField.value = priceSlider.noUiSlider.get();
 });
 
@@ -85,9 +83,5 @@ typeField.addEventListener('change', (evt) => {
       break;
   }
 });
-
-//priceSlider.setAttribute('disabled', true);
-//priceSlider.removeAttribute('disabled');
-//priceSlider.noUiSlider.destroy();
 
 export {priceSlider};

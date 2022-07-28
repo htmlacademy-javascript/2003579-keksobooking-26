@@ -10,7 +10,7 @@ const OfferType = {
   house: 'Дом',
 };
 
-const renderPopupCards = function(offers) {
+function renderPopupCards (offers) {
   const newArray= offers.map(({author, offer}) => {
     const popupCard = popupOffer.cloneNode(true);
 
@@ -63,6 +63,6 @@ const renderPopupCards = function(offers) {
     return popupCard;
   });
   return newArray;
-};
+}
 
 export {renderPopupCards};

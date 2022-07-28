@@ -15,7 +15,7 @@ const housingGuests = document.querySelector('#housing-guests');
 const FILTERED_NUMBER = 10;
 const RERENDER_DELAY = 500;
 
-const renderPoints = function(array) {
+function renderPoints (array) {
   const copyArray = array.slice(0);
   const filteredByType = copyArray.filter((copyArrayElement)=> compareType(copyArrayElement, housingType.value));
   const filteredByPrice = filteredByType.filter((filteredByTypeElement) => comparePrice(filteredByTypeElement, housingPrice.value));
@@ -32,9 +32,9 @@ const renderPoints = function(array) {
   truncatedOffers.forEach((offer, counter) => {
     createMarker(offer, counter, cardsArray);
   });
-};
+}
 
-const getData = function () {
+function getData () {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((offers) => {
@@ -54,9 +54,9 @@ const getData = function () {
       switchFormOnOff(filtersForm, 'map__filters--disabled', true);
       showServerError();
     });
-};
+}
 
-const sendData = function(body) {
+function sendData (body) {
   fetch(
     'https://26.javascript.pages.academy/keksobooking',
     {
@@ -78,6 +78,6 @@ const sendData = function(body) {
       showAlert(false);
       unblockSubmitButton();
     });
-};
+}
 
 export {getData, sendData};

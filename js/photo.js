@@ -5,7 +5,7 @@ const offerPhotoPreview = document.querySelector('.ad-form__photo');
 
 const FILE_TYPES = ['jpeg', 'jpg', 'gif', 'png'];
 
-const onAvatarChange = function() {
+function onAvatarChange () {
   uploadAvatar.addEventListener('change', () => {
     const newAvatar = uploadAvatar.files[0];
     if(!newAvatar) {
@@ -19,9 +19,9 @@ const onAvatarChange = function() {
       avatarPreview.src = URL.createObjectURL(newAvatar);
     }
   });
-};
+}
 
-const onOfferPhotoChange = function() {
+function onOfferPhotoChange () {
   uploadOfferPhoto.addEventListener('change', () => {
     const newOfferPhoto = uploadOfferPhoto.files[0];
     if(!newOfferPhoto) {
@@ -39,6 +39,6 @@ const onOfferPhotoChange = function() {
       offerPhotoPreview.append(newImg);
     }
   });
-};
+}
 
 export {onAvatarChange, onOfferPhotoChange};

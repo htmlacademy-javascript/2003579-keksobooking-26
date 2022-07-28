@@ -12,9 +12,9 @@ const pristine = new Pristine(userForm, {
   errorTextClass: 'ad-form__error'
 });
 
-const validateTitle = function (value) {
+function validateTitle (value) {
   return value.length >= 30 && value.length <= 100;
-};
+}
 
 pristine.addValidator(
   userForm.querySelector('#title'),
@@ -34,33 +34,33 @@ const minPrice = {
 
 const allocation = userForm.querySelector('#type');
 
-const validatePrice = function (value) {
+function validatePrice (value) {
   return minPrice[allocation.value] <= parseInt(value, 10) && parseInt(value, 10) <= 100000;
-};
+}
 
-const getPriceErrorMessage = function () {
+function getPriceErrorMessage () {
   return `Цена должна быть больше ${minPrice[allocation.value]} и меньше 100000`;
-};
+}
 
 pristine.addValidator(adPrice, validatePrice, getPriceErrorMessage);
 
-const onAllocationChange = function () {
+function onAllocationChange () {
   adPrice.placeholder = minPrice[allocation.value];
-};
+}
 
 userForm.querySelector('#type').addEventListener('change', onAllocationChange);
 
 const checkIn = document.querySelector('#timein');
 const checkOut = document.querySelector('#timeout');
 
-const onTimeChange = function (evt) {
+function onTimeChange (evt) {
   if(evt.target.matches('[name="timeout"]')) {
     checkIn.value = evt.target.value;
   }
   else if(evt.target.matches('[name="timein"]')) {
     checkOut.value = evt.target.value;
   }
-};
+}
 
 checkIn.addEventListener('change', onTimeChange);
 checkOut.addEventListener('change', onTimeChange);
@@ -82,11 +82,11 @@ const roomCapacityTexcontent = {
   '100': ['не для гостей']
 };
 
-const validateCapacity = function () {
+function validateCapacity () {
   return capacityOptionValues[adRooms.value].includes(adGuests.value);
-};
+}
 
-const getRoomCapacityError = function () {
+function getRoomCapacityError () {
   if(parseInt(adRooms.value, 10) === 1) {
     return `${adRooms.value}&nbsp;комната доступна не более чем ${roomCapacityTexcontent[adRooms.value][0]}`;
   }
@@ -96,26 +96,25 @@ const getRoomCapacityError = function () {
   else if(parseInt(adRooms.value, 10) >= 5) {
     return `${adRooms.value}&nbsp;комнат доступны ${roomCapacityTexcontent[adRooms.value][0]}`;
   }
-};
+}
 
 pristine.addValidator(adRooms, validateCapacity, getRoomCapacityError);
 pristine.addValidator(adGuests, validateCapacity, getRoomCapacityError);
 
 const submitButton = document.querySelector('.ad-form__submit');
 
-const blockSubmitButton = () => {
+function blockSubmitButton () {
   submitButton.disabled = true;
-};
+}
 
-const unblockSubmitButton = () => {
+function unblockSubmitButton () {
   submitButton.disabled = false;
-};
-
+}
 
 onAvatarChange();
 onOfferPhotoChange();
 
-const onUserFormSubmit = function() {
+function onUserFormSubmit () {
   userForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -128,6 +127,6 @@ const onUserFormSubmit = function() {
     }
 
   });
-};
+}
 
 export {blockSubmitButton, unblockSubmitButton, onUserFormSubmit};

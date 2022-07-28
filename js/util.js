@@ -3,27 +3,27 @@ const alertSuccessTemplate = document.querySelector('#success').content.querySel
 const pageBody = document.querySelector('body');
 
 
-const getRandomPositiveInteger = function (a, b) { // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
+function getRandomPositiveInteger (a, b) { // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-};
+}
 
-const getRandomPositiveFloat = function (a, b, digits) { // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
+function getRandomPositiveFloat (a, b, digits) { // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
   return result.toFixed(digits);
-};
+}
+
+function getRandomArrayComponent (array) {
+  return array[getRandomPositiveInteger(0, array.length - 1)];
+}
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const getRandomArrayComponent = function(array) {
-  return array[getRandomPositiveInteger(0, array.length - 1)];
-};
-
-const removeAlertContainer = (evt) => {
+function removeAlertContainer (evt) {
   evt.preventDefault();
   const errorMessage = document.querySelector('.error');
   const successMessage = document.querySelector('.success');
@@ -34,25 +34,17 @@ const removeAlertContainer = (evt) => {
     successMessage.remove();
   }
   document.removeEventListener('click', removeAlertContainer);
-};
+  document.removeEventListener('keydown', onAlertEscKeydown);
+}
 
-const onAlertEscKeydown = (evt) => {
+function onAlertEscKeydown (evt) {
   if(isEscapeKey(evt)) {
     removeAlertContainer(evt);
     document.removeEventListener('keydown', onAlertEscKeydown);
   }
-};
+}
 
-const deleteEvents = function() {
-  const errorMessage = document.querySelector('.error');
-  const successMessage = document.querySelector('.success');
-  if(!errorMessage && !successMessage) {
-    document.removeEventListener('click', removeAlertContainer);
-    document.removeEventListener('keydown', onAlertEscKeydown);
-  }
-};
-
-const showAlert = function(check) {
+function showAlert (check) {
   let alertContainer = undefined;
   if(check) {
     alertContainer = alertSuccessTemplate.cloneNode(true);
@@ -65,10 +57,9 @@ const showAlert = function(check) {
 
   document.addEventListener('keydown', onAlertEscKeydown);
   document.addEventListener('click', removeAlertContainer);
-  deleteEvents();
-};
+}
 
-const showServerError = function() {
+function showServerError () {
   const promo = document.querySelector('.promo');
   const title = promo.querySelector('h1');
 
@@ -84,14 +75,14 @@ const showServerError = function() {
   container.append(errorText);
 
   promo.insertBefore(container, title);
-};
+}
 
-const debounce = (callback, timeoutDelay) => {
+function debounce (callback, timeoutDelay) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-};
+}
 
 export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayComponent, showAlert, showServerError, debounce};

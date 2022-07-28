@@ -1,4 +1,4 @@
-import {similarElements} from './generator.js';
+import {renderPopupCards} from './generator.js';
 import {createMarker, clearMarkers} from './map.js';
 import {clearForm} from './form-reset.js';
 import {showAlert, showServerError, debounce} from './util.js';
@@ -15,7 +15,7 @@ const housingGuests = document.querySelector('#housing-guests');
 const FILTERED_NUMBER = 10;
 const RERENDER_DELAY = 500;
 
-const renderPoints = function(array) {
+function renderPoints (array) {
   const copyArray = array.slice(0);
   const filteredByType = copyArray.filter((copyArrayElement)=> compareType(copyArrayElement, housingType.value));
   const filteredByPrice = filteredByType.filter((filteredByTypeElement) => comparePrice(filteredByTypeElement, housingPrice.value));
@@ -28,53 +28,56 @@ const renderPoints = function(array) {
   }
 
   const truncatedOffers = filteredByFeatures.slice(0, FILTERED_NUMBER);
-  const cardsArray = similarElements(truncatedOffers);
+  const cardsArray = renderPopupCards(truncatedOffers);
   truncatedOffers.forEach((offer, counter) => {
     createMarker(offer, counter, cardsArray);
   });
-};
+}
 
-const getData = function () {
+function getData () {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((offers) => {
-      //console.log(offers);
-      switchFormOnOff(filtersForm, false);
+
+      switchFormOnOff(filtersForm, 'map__filters--disabled', false);
 
       renderPoints(offers);
 
       filtersForm.addEventListener('change', debounce(() => {
         clearMarkers();
         renderPoints(offers);
-      }), RERENDER_DELAY);
+      }, RERENDER_DELAY));
 
     })
     .catch(() => {
-      //console.log(err);
+
       switchFormOnOff(filtersForm, 'map__filters--disabled', true);
       showServerError();
     });
-};
+}
 
-const sendData = function(body) {
+function sendData (body) {
   fetch(
     'https://26.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
       body,
-    },
-  ).then((response) => {
-    if(response.ok) {
-      clearForm();
-      unblockSubmitButton();
-      showAlert(true);
-    }
-    else {
+    })
+    .then((response) => {
+      if(response.ok) {
+        clearForm();
+        unblockSubmitButton();
+        showAlert(true);
+      }
+      else {
+        showAlert(false);
+        unblockSubmitButton();
+      }
+    })
+    .catch(() => {
       showAlert(false);
       unblockSubmitButton();
-    }
-  });
-
-};
+    });
+}
 
 export {getData, sendData};

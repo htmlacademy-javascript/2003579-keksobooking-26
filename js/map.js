@@ -54,7 +54,7 @@ const commonPinIcon = L.icon({
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (point, counter, cardsArray) => {
+function createMarker (point, counter, cardsArray) {
   const marker = L.marker(
     {
       lat: point.location.lat,
@@ -68,10 +68,10 @@ const createMarker = (point, counter, cardsArray) => {
   marker
     .addTo(markerGroup)
     .bindPopup(cardsArray[counter]);
-};
+}
 
-const clearMarkers = function() {
+function clearMarkers () {
   markerGroup.clearLayers();
-};
+}
 
-export {map, createMarker, clearMarkers};
+export {mainPinMarker, createMarker, clearMarkers};

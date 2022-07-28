@@ -103,19 +103,18 @@ pristine.addValidator(adGuests, validateCapacity, getRoomCapacityError);
 
 const submitButton = document.querySelector('.ad-form__submit');
 
-const blockSubmitButton = () => {
+function blockSubmitButton () {
   submitButton.disabled = true;
-};
+}
 
-const unblockSubmitButton = () => {
+function unblockSubmitButton () {
   submitButton.disabled = false;
-};
-
+}
 
 onAvatarChange();
 onOfferPhotoChange();
 
-const onUserFormSubmit = function() {
+function onUserFormSubmit () {
   userForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -128,6 +127,6 @@ const onUserFormSubmit = function() {
     }
 
   });
-};
+}
 
 export {blockSubmitButton, unblockSubmitButton, onUserFormSubmit};

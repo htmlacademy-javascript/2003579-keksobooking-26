@@ -17,20 +17,34 @@ function getRandomPositiveFloat (a, b, digits) { // Источник - https://g
   return result.toFixed(digits);
 }
 
+function getRandomArrayComponent (array) {
+  return array[getRandomPositiveInteger(0, array.length - 1)];
+}
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const getRandomArrayComponent = function(array) {
-  return array[getRandomPositiveInteger(0, array.length - 1)];
-};
-
-const removeAlertContainer = function(evt, alertContainer) {
+function removeAlertContainer (evt) {
   evt.preventDefault();
-  alertContainer.remove();
-};
+  const errorMessage = document.querySelector('.error');
+  const successMessage = document.querySelector('.success');
+  if(errorMessage) {
+    errorMessage.remove();
+  }
+  else if(successMessage) {
+    successMessage.remove();
+  }
+  document.removeEventListener('click', removeAlertContainer);
+  document.removeEventListener('keydown', onAlertEscKeydown);
+}
 
+function onAlertEscKeydown (evt) {
+  if(isEscapeKey(evt)) {
+    removeAlertContainer(evt);
+    document.removeEventListener('keydown', onAlertEscKeydown);
+  }
+}
 
-const showAlert = function(check) {
+function showAlert (check) {
   let alertContainer = undefined;
   if(check) {
     alertContainer = alertSuccessTemplate.cloneNode(true);
@@ -41,16 +55,11 @@ const showAlert = function(check) {
 
   pageBody.append(alertContainer);
 
-  document.addEventListener('click', (evt) => removeAlertContainer(evt, alertContainer));
+  document.addEventListener('keydown', onAlertEscKeydown);
+  document.addEventListener('click', removeAlertContainer);
+}
 
-  document.addEventListener('keydown', (evt) => {
-    if(isEscapeKey(evt)) {
-      removeAlertContainer(evt, alertContainer);
-    }
-  });
-};
-
-const showServerError = function() {
+function showServerError () {
   const promo = document.querySelector('.promo');
   const title = promo.querySelector('h1');
 
@@ -66,14 +75,14 @@ const showServerError = function() {
   container.append(errorText);
 
   promo.insertBefore(container, title);
-};
+}
 
-const debounce = (callback, timeoutDelay) => {
+function debounce (callback, timeoutDelay) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-};
+}
 
 export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayComponent, showAlert, showServerError, debounce};
